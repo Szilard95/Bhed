@@ -7,10 +7,9 @@ local function sign(x)
 end
 
 local function eq(a,b)
+	if #a ~= #b then return false end
 	for x=1,#a do
-		for y = 1,#b do
-			if a[x] ~= b[y] then return false end
-		end
+		if a[x] ~= b[x] then return false end
 	end
 	return true
 end
@@ -33,18 +32,17 @@ function Enemy:update(dt)
 end
 
 function Enemy:setDir(x,y)
-	local tx = sign(x-self:getX())
-	local ty = sign(y-self:getY())
-	THIS = tosttx
+	local tx = sign(math.floor(x)-math.floor(self.x))
+	local ty = sign(math.floor(y)-math.floor(self.y))
 	if eq({tx,ty},{0,-1}) then self.dir = 0
-	elseif eq({tx,ty},{1,1}) then self.dir = 1
+	elseif eq({tx,ty},{1,-1}) then self.dir = 1
 	elseif eq({tx,ty},{1,0}) then self.dir = 2
-	elseif eq({tx,ty},{1,-1}) then self.dir = 3
+	elseif eq({tx,ty},{1,1}) then self.dir = 3
 	elseif eq({tx,ty},{0,1}) then self.dir = 4
 	elseif eq({tx,ty},{-1,1}) then self.dir = 5
-	elseif eq({tx,ty},{1,0}) then self.dir = 6
-	elseif eq({tx,ty},{1,1}) then self.dir = 7
-	end
+	elseif eq({tx,ty},{-1,0}) then self.dir = 6
+	elseif eq({tx,ty},{-1,-1}) then self.dir = 7
+		else self.dir = self.dir end
 
 end
 
