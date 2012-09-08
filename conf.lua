@@ -1,5 +1,5 @@
 function love.conf(t)
-    t.screen.width = 1024
-    t.screen.height = 500
+    t.screen.width = 1280
+    t.screen.height = 736
     t.screen.vsync = false
 end
