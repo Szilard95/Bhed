@@ -15,10 +15,11 @@ local function copy(t)
 end
 
 function Entity:initialize(x,y,i,hp)
+  if not self.scale then self.scale = 1 end
   self.img = love.graphics.newImage(i)
   if not self.dir then self.dir = 0 end
-  self.w = self.img:getWidth()
-  self.h = self.img:getHeight()
+  self.w = self.img:getWidth() *self.scale
+  self.h = self.img:getHeight() *self.scale
   
   self.x, self.y = x,y
 
@@ -62,7 +63,7 @@ function Entity:shouldCollide(other)
 end
 
 function Entity:draw()
-  love.graphics.draw(self.img,self.x,self.y,math.rad(self.dir*45),1,1,self.dim/2,self.dim/2)
+  love.graphics.draw(self.img,self.x,self.y,math.rad(self.dir*45),self.scale,self.scale,self.dim/2,self.dim/2)
 end
 
 function Entity:getBBox()

@@ -20,7 +20,4 @@ function Block:collision(other, dx, dy)
 	return
 end
 
-function Block:draw()
-  love.graphics.draw(self.img,self.x,self.y)
-end
 return Block

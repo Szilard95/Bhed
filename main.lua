@@ -64,9 +64,6 @@ function love.update(dt)
 end
 
 function love.draw()
-  --
-
-
   if 211 ~= love.graphics.getBackgroundColor() then love.graphics.setBackgroundColor(211,211,211) end
   entity:drawAll()
   drawDebug()
@@ -81,5 +78,5 @@ end
 ---"px"..player1.getX().."py"..player1.getY()
 
 function drawDebug()
-  --love.graphics.print('fps:'..love.timer.getFPS()..'      '..THIS..'  P1: '..player1:getCurrWeapon()..':'..player1:getAmmo()..' hp: '..player1.score..'-'..player1.mul..'  P2: '..player2:getCurrWeapon()..':'..player2:getAmmo()..' hp: '..player2:getHP(),40,40)
+  love.graphics.print('fps:'..love.timer.getFPS()..'      '..THIS..'  P1: '..player1:getCurrWeapon()..':'..player1:getAmmo()..' hp: '..player1.score..'-'..player1.mul..'  P2: '..player2:getCurrWeapon()..':'..player2:getAmmo()..' hp: '..player2:getHP(),40,40)
 end
