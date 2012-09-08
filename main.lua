@@ -15,7 +15,8 @@ local timer = require 'lib.timer'
 
 unit = 1  --firing rate's unit --sec
 
-livingPlayers = {player1,player2}
+livingPlayers = {}
+livingEnemies = 0
 
 screen={}
 screen.width = love.graphics.getWidth()
@@ -52,15 +53,20 @@ end
 ---löve callbacks---:)
 function love.load()
   map.load1()
-
 end
+
 function love.update(dt)
   entity:updateAll(dt)
   timer:updateAll(dt)
   bump.collide()
+
+  map.updateLevel()
 end
 
 function love.draw()
+  --
+
+
   if 211 ~= love.graphics.getBackgroundColor() then love.graphics.setBackgroundColor(211,211,211) end
   entity:drawAll()
   drawDebug()
@@ -68,12 +74,12 @@ end
 
 function love.keypressed(key)
   if player1:notDead() then player1:keypressed(key) end
-  if player2:notDead() then player2:keypressed(key) end
+  if player2~= nil and player2:notDead() then player2:keypressed(key) end
   if key == "p" then map.load1() end
   if key=="escape" then love.event.push('quit') end
 end
 ---"px"..player1.getX().."py"..player1.getY()
 
 function drawDebug()
-  love.graphics.print('fps:'..love.timer.getFPS()..'      '..THIS..'  P1: '..player1:getCurrWeapon()..':'..player1:getAmmo()..' hp: '..player1.score..'-'..player1.mul..'  P2: '..player2:getCurrWeapon()..':'..player2:getAmmo()..' hp: '..player2:getHP(),40,40)
+  --love.graphics.print('fps:'..love.timer.getFPS()..'      '..THIS..'  P1: '..player1:getCurrWeapon()..':'..player1:getAmmo()..' hp: '..player1.score..'-'..player1.mul..'  P2: '..player2:getCurrWeapon()..':'..player2:getAmmo()..' hp: '..player2:getHP(),40,40)
 end
