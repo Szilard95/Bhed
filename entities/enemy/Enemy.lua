@@ -1,5 +1,6 @@
 local entity = require 'entities.Entity'
 local timer = require 'lib.timer'
+local pickup = require 'entities.Pickup'
 Enemy = class('Enemy', entity)
 
 local function sign(x)
@@ -27,22 +28,22 @@ function Enemy:update(dt)
   		table.remove(livingPlayers, #self.target)
   		self.target = Enemy:chooseTarget()
   	end
-	self:setDir(self.target:getX(),self.target:getY())
+	self.dir = self:setDir(self.target:getX(),self.target:getY())
 	self:goToDir(dt)
 end
 
 function Enemy:setDir(x,y)
 	local tx = sign(math.floor(x)-math.floor(self.x))
 	local ty = sign(math.floor(y)-math.floor(self.y))
-	if eq({tx,ty},{0,-1}) then self.dir = 0
-	elseif eq({tx,ty},{1,-1}) then self.dir = 1
-	elseif eq({tx,ty},{1,0}) then self.dir = 2
-	elseif eq({tx,ty},{1,1}) then self.dir = 3
-	elseif eq({tx,ty},{0,1}) then self.dir = 4
-	elseif eq({tx,ty},{-1,1}) then self.dir = 5
-	elseif eq({tx,ty},{-1,0}) then self.dir = 6
-	elseif eq({tx,ty},{-1,-1}) then self.dir = 7
-		else self.dir = self.dir end
+	if eq({tx,ty},{0,-1}) then return 0
+	elseif eq({tx,ty},{1,-1}) then return 1
+	elseif eq({tx,ty},{1,0}) then return 2
+	elseif eq({tx,ty},{1,1}) then return 3
+	elseif eq({tx,ty},{0,1}) then return 4
+	elseif eq({tx,ty},{-1,1}) then return 5
+	elseif eq({tx,ty},{-1,0}) then return 6
+	elseif eq({tx,ty},{-1,-1}) then return 7
+	else return self.dir end
 
 end
 
@@ -84,12 +85,30 @@ function Enemy:collision(other, dx, dy)
     self.x = self.x + dx
     self.y = self.y + dy
   end
-  	if instanceOf(Player, other) then
+  	if instanceOf(Player, other)or instanceOf(Block,other) then
   		if self.timer:trigger() then
-  			other:damage(self.dmg)
+  			targetDir = self:setDir(other:getX(),other:getY())
+  			if targetDir == self.dir then other:damage(self.dmg) end
   			self.timer:reset()
   		end
   	end
 end
+
+function Enemy:drop()
+	if math.floor(math.random(1,100))<25 then
+		pickup:new(self.x,self.y)
+	end
+end
+
+function Enemy:damage(d)
+  if not self.hp then return end
+  self.hp = self.hp - d
+  if self.hp <= 0 then
+  	self:drop()
+  	self:destroy()
+  	livingEnemies = livingEnemies - 1
+  end
+end
+
 
 return Enemy
