@@ -3,6 +3,8 @@ local timer = require 'lib.timer'
 local pistol = require 'weapons.Pistol'
 local smg = require 'weapons.Smg'
 local ak47 = require 'weapons.Ak47'
+local deagle = require 'weapons.Deagle'
+local grenade = require 'weapons.Grenade'
 
 require 'entities.blocks.Block'
 
@@ -19,15 +21,25 @@ local maxSpeed = 165
 local maxHP = 100
 local regenRate = 0.28 --3.5s
 local regenHP = 5
+local allWeapons = {{req=3,create=deagle:new()},
+					{req=7,create=smg:new()},
+					{req=11,create=ak47:new()},
+					--[[{req=15,create=grenade:new()},
+					{req=19,create=},
+					{req=23,create=},
+					{req=27,create=},
+					{req=31,create=},
+					{req=35,create=},
+					{req=39,create=},
+					{req=43,create=}--]]}
 
 function Player:initialize(x,y,n,...)
 	self.dim = dims['player']
 	self.regenTimer = timer:new(regenRate)
 	self.mulTimer = timer:new(0.4)
-	self.wPistol = pistol:new()
-	self.wSmg = smg:new()
-	self.wAk47 = ak47:new()
-	self.weapons = {self.wPistol, self.wSmg, self.wAk47}
+	self.weapons = {}
+	self.weapons[1] = pistol:new()
+	self.nextWeapon = 1
 	self.number = n
 	self.speed = 0
 	self.dir = 0
@@ -149,7 +161,7 @@ function Player:getMul()
 	return self.mul
 end
 
-function Player:nextWeapon()
+function Player:changeWeapon()
 	if self.weaponNum >= #self.weapons then
 		self.weaponNum = 1
 	else
@@ -161,11 +173,11 @@ end
 function Player:keypressed(key)
 	if self.number == 1 then
 		if key == 'q' then
-			self:nextWeapon()
+			self:changeWeapon()
 		end
 	else
 		if key == 'rshift' then
-			self:nextWeapon()
+			self:changeWeapon()
 		end
 	end
 end
@@ -202,5 +214,11 @@ function Player:setScore(val)
 	self.score = self.score + self.mul * val
 end
 
+function Player:tryGiveWeapon()
+	if self.mul == allWeapons[self.nextWeapon]['req'] then
+		self.nextWeapon = self.nextWeapon+1
+		self.weapons[self.nextWeapon] = allWeapons[self.nextWeapon-1]['create']
+	end
+end
 
 return Player
