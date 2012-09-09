@@ -14,6 +14,7 @@ local blocksW = width/32  --40
 local blocksH = height/32  --18
 local bRes = 32
 local enemies = 10
+local bosses = 1
 local toSpawn = 0
 local spawns = {}
 spawns[1] = {{x=width/2,y=1},{x=width/2,y=height-dims.enemy}}
@@ -37,7 +38,8 @@ end
 function map.nextLevel()
 	actLevel = actLevel + 1
 	enemies = enemies + 5
-	toSpawn = enemies
+	---if acrLevel .. inc bosses
+	toSpawn = enemies--+bosses
 end
 
 function nextSpawn()
@@ -52,6 +54,7 @@ function map.updateLevel()
 	if toSpawn ~= 0 and spawnTimer:trigger() then
 		choosenSpawn = nextSpawn()
 		map.spawnEnemy(spawns[actMap][choosenSpawn].x,spawns[actMap][choosenSpawn].y,zombie)
+		--if actLevel...spawn bosses
 		spawnTimer:reset()
 	end
 	if livingEnemies == 0 and toSpawn == 0 then map.nextLevel() end
