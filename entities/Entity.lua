@@ -21,7 +21,7 @@ function Entity:initialize(x,y,i,hp)
   self.w = self.img:getWidth() *self.scale
   self.h = self.img:getHeight() *self.scale
   
-  self.x, self.y = x,y
+  self.x, self.y = x+self.dim/2,y+self.dim/2
 
   self.hp = hp
   
@@ -64,6 +64,7 @@ end
 
 function Entity:draw()
   love.graphics.draw(self.img,self.x,self.y,math.rad(self.dir*45),self.scale,self.scale,self.dim/2,self.dim/2)
+  --love.graphics.rectangle('line', self:getBBox())
 end
 
 function Entity:getBBox()
@@ -110,14 +111,14 @@ function Entity.static:drawAll()
     entity:draw()
   end
 end
-
 function Entity:explode(radius,dmg)
+  local hurt = function(poorGuy) poorGuy:damage(dmg,self.owner) end
   local x = self:getX()-radius
   local y = self:getY()-radius
-  local w = self:getX()+radius
-  local h = self:getY()+radius
+  local w = radius*2
+  local h = radius*2
   self:destroy()
-  bump.each(function(poorGuy) poorGuy:damage(dmg,self.owner)end,x,y,w,h)
+  bump.each(hurt,x,y,w,h)
 end
 
 return Entity
