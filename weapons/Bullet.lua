@@ -11,9 +11,10 @@ end
 
 function Bullet:initialize(x,y,dir,dmg,owner,range)
 	self.dim = dims['bullet']
-	entity.initialize(self,x,y,"/res/Bullet.png", nil)
-	self.dmg = dmg
 	self.dir = dir
+	entity.initialize(self,x,y,"/res/Bullet.png", nil)
+	self.w,self.h = self.dim,self.dim
+	self.dmg = dmg
 	self.owner = owner
 	self.range = range
 end
@@ -64,5 +65,6 @@ function Bullet:collision( other,dx,dy )
 	self:destroy()
 	end
 end
+
 
 return Bullet
