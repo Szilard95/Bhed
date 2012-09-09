@@ -48,8 +48,6 @@ function bump.getBBox(obj)
   return obj:getBBox()
 end
 
-
-
 ---löve callbacks---:)
 function love.load()
   map.load1()
