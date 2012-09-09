@@ -85,7 +85,7 @@ function Enemy:collision(other, dx, dy)
     self.x = self.x + dx
     self.y = self.y + dy
   end
-  	if instanceOf(Player, other)or instanceOf(Block,other) then
+  	if instanceOf(Player, other)--[[or instanceOf(Block,other)--]] then
   		if self.timer:trigger() then
   			targetDir = self:setDir(other:getX(),other:getY())
   			if targetDir == self.dir then other:damage(self.dmg) end
@@ -100,13 +100,18 @@ function Enemy:drop()
 	end
 end
 
-function Enemy:damage(d)
+function Enemy:damage(d,owner)
   if not self.hp then return end
   self.hp = self.hp - d
   if self.hp <= 0 then
   	self:drop()
   	self:destroy()
   	livingEnemies = livingEnemies - 1
+  	if owner then 
+  		owner:setScore(self.val)
+		owner:setMul(self.mul)
+		owner:tryGiveWeapon()
+	end
   end
 end
 
