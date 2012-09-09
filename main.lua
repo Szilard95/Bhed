@@ -10,7 +10,6 @@ THIS = ''
 require 'lib.middleclass'
 
 local bump = require 'lib.bump'
-bump.initialize(32)
 local entity = require 'entities.Entity'
 local timer = require 'lib.timer'
 
@@ -51,6 +50,8 @@ end
 
 ---löve callbacks---:)
 function love.load()
+bump.initialize(32)
+
   map.load1()
 end
 
@@ -66,6 +67,7 @@ function love.draw()
   if 211 ~= love.graphics.getBackgroundColor() then love.graphics.setBackgroundColor(211,211,211) end
   entity:drawAll()
   drawDebug()
+  --if EXPx then love.graphics.rectangle('line', EXPx,EXPy,EXPw,EXPh) end
 end
 
 function love.keypressed(key)
@@ -77,5 +79,8 @@ end
 ---"px"..player1.getX().."py"..player1.getY()
 
 function drawDebug()
+  local r,g,b = love.graphics.getColor()
+  love.graphics.setColor(0,0,0)
   love.graphics.print('fps:'..love.timer.getFPS()..'      '..THIS..'  P1: '..player1:getCurrWeapon()..':'..player1:getAmmo()..' hp:'..player1:getHP()..' score: '..player1.score..'-'..player1.mul..'  P2: '..player2:getCurrWeapon()..':'..player2:getAmmo()..' hp: '..player2:getHP()..' score: '..player2.score..'-'..player2.mul,40,40)
+  love.graphics.setColor(r,g,b)
 end
