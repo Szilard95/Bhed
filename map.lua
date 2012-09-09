@@ -68,6 +68,8 @@ function map.load1()
 	player1 = player:new(500,220,1)
   	player2 = player:new(500,250,2)
 	livingPlayers = {player1,player2}
+	livingEnemies = 0
+	toSpawn = enemies
 	--walls--
 	for x = 0, blocksW/2-2 do wall:new(x*bRes,0) end--top walls
 	for x = blocksW/2+2,blocksW-1 do wall:new(x*bRes,0) end
@@ -84,12 +86,20 @@ function map.load1()
 	for x = blocksH-5, blocksH-2 do Barrel:new((blocksW/2-2)*bRes,x*bRes) end
 	for x = blocksH-5, blocksH-2 do Barrel:new((blocksW/2+2)*bRes,x*bRes) end
 	--level1
-	livingEnemies = 0
-	toSpawn = enemies
+
 end
 
 function map.load2()
-
+	spawnTimer:start()
+	map.reset()
+	actLevel = 1
+	actMap = 1
+	player1 = player:new(500,220,1)
+  	player2 = player:new(500,250,2)
+	livingPlayers = {player1,player2}
+	livingEnemies = 0
+	toSpawn = enemies
+	Barrel:new(500,500)
 end
 
 return map
