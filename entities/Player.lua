@@ -215,10 +215,12 @@ function Player:setScore(val)
 end
 
 function Player:tryGiveWeapon()
+	if self.nextWeapon <= #allWeapons then
 	if self.mul == allWeapons[self.nextWeapon]['req'] then
 		self.nextWeapon = self.nextWeapon+1
 		self.weapons[self.nextWeapon] = allWeapons[self.nextWeapon-1]['create']
 	end
+end
 end
 
 return Player
