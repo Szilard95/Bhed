@@ -55,7 +55,7 @@ end
 
 function Bullet:collision( other,dx,dy )
 	if other ~= self.owner then
-	other:damage(self.dmg)
+	other:damage(self.dmg,self.owner)
 	if not other:notDead() and other.val ~= nil then
 		self.owner:setScore(other.val)
 		self.owner:setMul(other.mul)
