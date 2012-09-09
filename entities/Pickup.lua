@@ -5,7 +5,7 @@ PickUp = class('PickUp',entity)
 function PickUp:initialize(x,y)
 	self.dim = dims['pickup']
 	entity.initialize(self,x,y,'/res/PickUp.png',nil)
-	self.ammo = math.floor(math.random(50,100))
+	self.ammo = math.floor(math.random(10,50))
 end
 
 function PickUp:shouldCollide(other)
