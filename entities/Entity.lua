@@ -111,4 +111,13 @@ function Entity.static:drawAll()
   end
 end
 
+function Entity:explode(radius,dmg)
+  local x = self:getX()-radius
+  local y = self:getY()-radius
+  local w = self:getX()+radius
+  local h = self:getY()+radius
+  self:destroy()
+  bump.each(function(poorGuy) poorGuy:damage(dmg,self.owner)end,x,y,w,h)
+end
+
 return Entity
