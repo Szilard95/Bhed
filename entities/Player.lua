@@ -16,9 +16,13 @@ local accVelo = 450
 local breakVelo = 600
 local minSpeed = 5
 local maxSpeed = 165
+local maxHP = 100
+local regenRate = 0.28 --3.5s
+local regenHP = 5
 
 function Player:initialize(x,y,n,...)
 	self.dim = dims['player']
+	self.regenTimer = timer:new(regenRate)
 	self.mulTimer = timer:new(0.4)
 	self.wPistol = pistol:new()
 	self.wSmg = smg:new()
@@ -36,9 +40,17 @@ function Player:initialize(x,y,n,...)
 		entity.initialize(self,x,y,"/res/Player.png",100)
 	end
 	if n == 1 then self.act = p1_cont else self.act = p2_cont end
+	self.regenTimer:start()
 end
 
 function Player:update(dt)
+
+	if self.regenTimer:trigger() and self.hp<maxHP then
+		if maxHP-self.hp <= regenHP then self.hp = maxHP
+		else self.hp = self.hp + regenHP
+		end
+		self.regenTimer:reset()
+	end
 
 	if self.mul > 1 and self.mulTimer:stopped() then
 		self.mulTimer:start()
@@ -174,6 +186,7 @@ function Player:collision(other, dx, dy)
   	self.weapon:setAmmo(other.ammo)
   	other:destroy()
   end
+  if instanceOf(Enemy,other) then self.regenTimer:reset() end
 end
 
 function Player:setMul(val)
