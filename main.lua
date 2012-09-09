@@ -10,6 +10,7 @@ THIS = ''
 require 'lib.middleclass'
 
 local bump = require 'lib.bump'
+bump.initialize(32)
 local entity = require 'entities.Entity'
 local timer = require 'lib.timer'
 
