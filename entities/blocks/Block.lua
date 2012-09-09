@@ -8,7 +8,7 @@ local entity = require 'entities.Entity'
 Block = class('Block', entity)
 
 function Block:initialize(x,y,img,hp)
-	self.dim = 0
+	self.dim = dims.block
 	entity.initialize(self,x,y,img,hp)
 	bump.addStatic(self)
 end
