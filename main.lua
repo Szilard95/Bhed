@@ -22,7 +22,7 @@ screen={}
 screen.width = love.graphics.getWidth()
 screen.height = love.graphics.getHeight()
 dims = {}
-dims.bullet = 5
+dims.bullet = 3
 dims.player = 25
 dims.block = 32
 dims.enemy = 25
@@ -76,5 +76,5 @@ end
 ---"px"..player1.getX().."py"..player1.getY()
 
 function drawDebug()
-  love.graphics.print('fps:'..love.timer.getFPS()..'      '..THIS..'  P1: '..player1:getCurrWeapon()..':'..player1:getAmmo()..' hp: '..player1.score..'-'..player1.mul..'  P2: '..player2:getCurrWeapon()..':'..player2:getAmmo()..' hp: '..player2:getHP(),40,40)
+  love.graphics.print('fps:'..love.timer.getFPS()..'      '..THIS..'  P1: '..player1:getCurrWeapon()..':'..player1:getAmmo()..' hp:'..player1:getHP()..' score: '..player1.score..'-'..player1.mul..'  P2: '..player2:getCurrWeapon()..':'..player2:getAmmo()..' hp: '..player2:getHP()..' score: '..player2.score..'-'..player2.mul,40,40)
 end
