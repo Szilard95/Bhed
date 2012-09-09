@@ -8,11 +8,12 @@ local Timer = require 'lib.timer'
 
 Weapon = class('Weapon')
 
-function Weapon:initialize(rate,dmg,ammo,range)
+function Weapon:initialize(rate,dmg,ammo,range,maxAmmo)
 	self.range = range
 	self.rate = rate
 	self.dmg = dmg
 	self.ammo = ammo
+	self.maxAmmo = maxAmmo
 	self.timer = Timer:new(self.rate)
 	self.timer:start()
 end
@@ -38,7 +39,9 @@ function Weapon:getDmg()
 end
 
 function Weapon:setAmmo(value)
-	self.ammo = self.ammo + value
+	if self.maxAmmo-self.ammo <= value then self.ammo = self.maxAmmo
+		else self.ammo = self.ammo + value
+	end
 end
 
 function Weapon:getAmmo()
