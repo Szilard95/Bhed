@@ -5,21 +5,31 @@ local bSpeed = 700
 
 Bullet = class ('Bullet', entity)
 
-function Bullet:initialize(x,y,dir,dmg,owner)
+local function abs(x)
+  return x < 0 and -x or x
+end
+
+function Bullet:initialize(x,y,dir,dmg,owner,range)
 	self.dim = dims['bullet']
 	entity.initialize(self,x,y,"/res/Bullet.png", nil)
 	self.dmg = dmg
 	self.dir = dir
 	self.owner = owner
+	self.range = range
 end
 
 function Bullet:shouldCollide(other)
 if instanceOf(Bullet,other)or instanceOf(PickUp,other) then return false end
 return true 
 end
+function Bullet:outOfRange()
+	if abs(self.owner:getX()-self.x)>self.range or abs(self.owner:getY()-self.y)>self.range then return true end
+	return false
+end
 
 function Bullet:update(dt)	
 	if self:outOfScreen() then self:destroy() end
+	if self:outOfRange() then self:destroy() end
 	if self.dir == 0 then 
 		self.y = self.y-bSpeed*dt
 	elseif self.dir == 1 then

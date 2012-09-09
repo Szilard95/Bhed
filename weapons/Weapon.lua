@@ -8,7 +8,8 @@ local Timer = require 'lib.timer'
 
 Weapon = class('Weapon')
 
-function Weapon:initialize(rate,dmg,ammo)
+function Weapon:initialize(rate,dmg,ammo,range)
+	self.range = range
 	self.rate = rate
 	self.dmg = dmg
 	self.ammo = ammo
@@ -19,10 +20,10 @@ end
 function Weapon:fire(x,y,dir,owner)
 	if self.timer:trigger() then
 	if self.ammo == nil then
-	Bullet:new(x,y,dir,self.dmg,owner)
+	Bullet:new(x,y,dir,self.dmg,owner,self.range)
 	elseif self.ammo > 0 then
 	self.ammo = self.ammo -1
-	Bullet:new(x,y,dir,self.dmg,owner)
+	Bullet:new(x,y,dir,self.dmg,owner,self.range)
 	end
 	self.timer:reset()
 	end
