@@ -99,7 +99,11 @@ function map.load2()
 	livingPlayers = {player1,player2}
 	livingEnemies = 0
 	toSpawn = enemies
-	Barrel:new(500,500)
+	Barrel:new(width/2,height/2)
+	--Barrel:new(600,500)
+	--Barrel:new(650,500)
+	--Barrel:new(500,700)
+
 end
 
 return map
