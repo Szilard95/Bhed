@@ -3,7 +3,7 @@ local entity = require 'entities.Entity'
 --local img = "/res/Bullet.png"
 local bSpeed = 700
 
-Bullet = class ('Bullet', entity)
+ Bullet = class ('Bullet', entity)
 
 local function abs(x)
   return x < 0 and -x or x
@@ -57,11 +57,11 @@ end
 function Bullet:collision( other,dx,dy )
 	if other ~= self.owner then
 	other:damage(self.dmg,self.owner)
-	if not other:notDead() and other.val ~= nil then
+	--[[if not other:notDead() and other.val ~= nil then
 		self.owner:setScore(other.val)
-		self.owner:setMul(other.mul)
+		self.owner:setMul(1)
 		self.owner:tryGiveWeapon()
-	end
+	end--]]
 	self:destroy()
 	end
 end
