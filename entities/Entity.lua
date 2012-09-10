@@ -1,7 +1,7 @@
 require 'lib.middleclass'
 
 local bump = require 'lib.bump'
-
+local psys = require 'effect.psys'
 local entities = {}
 
 local Entity = class('Entity')
@@ -18,8 +18,8 @@ function Entity:initialize(x,y,i,hp)
   if not self.scale then self.scale = 1 end
   self.img = love.graphics.newImage(i)
   if not self.dir then self.dir = 0 end
-  self.w = self.img:getWidth() *self.scale
-  self.h = self.img:getHeight() *self.scale
+  self.w = self.img:getWidth() * self.scale
+  self.h = self.img:getHeight() * self.scale
   
   self.x, self.y = x+self.dim/2,y+self.dim/2
 
@@ -32,6 +32,7 @@ function Entity:initialize(x,y,i,hp)
 end
 
 function Entity:destroy()
+  if instanceOf(Enemy, self) then livingEnemies = livingEnemies -1 end
   bump.remove(self)
   entities[self] = nil
 end
@@ -64,11 +65,12 @@ end
 
 function Entity:draw()
   love.graphics.draw(self.img,self.x,self.y,math.rad(self.dir*45),self.scale,self.scale,self.dim/2,self.dim/2)
+  --if instanceOf(Zombie, self) then love.graphics.print(self.hp,self.x,self.y) end
   --love.graphics.rectangle('line', self:getBBox())
 end
 
 function Entity:getBBox()
-  return self.x-self.dim/2, self.y-self.dim/2, self.w, self.h
+  return self.x-self.dim/2* self.scale, self.y-self.dim/2* self.scale, self.w, self.h
 end
 
 function Entity:getCenter()
@@ -118,6 +120,7 @@ function Entity:explode(radius,dmg)
   local w = radius*2
   local h = radius*2
   self:destroy()
+  psys:new(self:getX(),self:getY(),'explosion')
   bump.each(hurt,x,y,w,h)
 end
 
