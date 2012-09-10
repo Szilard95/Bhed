@@ -9,7 +9,7 @@ local grenade = require 'weapons.Grenade'
 require 'entities.blocks.Block'
 
 
-Player = class('Player', entity)
+ Player = class('Player', entity)
 
 local p1_cont = {up='w', right='d', down='s', left='a', fire=' '}
 local p2_cont = {up='up', right='right', down='down', left='left', fire='rctrl'}
@@ -21,9 +21,9 @@ local maxSpeed = 165
 local maxHP = 100
 local regenRate = 0.28 --3.5s
 local regenHP = 5
-local allWeapons = {{req=3,create=deagle:new()},
-					{req=7,create=smg:new()},
-					{req=11,create=ak47:new()},
+local allWeapons = {{req=3,create=function() return deagle:new() end},
+					{req=7,create=function() return smg:new() end},
+					{req=11,create=function() return ak47:new() end},
 					--[[{req=15,create=grenade:new()},
 					{req=19,create=},
 					{req=23,create=},
@@ -216,9 +216,9 @@ end
 
 function Player:tryGiveWeapon()
 	if self.nextWeapon <= #allWeapons then
-	if self.mul == allWeapons[self.nextWeapon]['req'] then
+	if self.mul >= allWeapons[self.nextWeapon]['req'] then
 		self.nextWeapon = self.nextWeapon+1
-		self.weapons[self.nextWeapon] = allWeapons[self.nextWeapon-1]['create']
+		self.weapons[self.nextWeapon] = allWeapons[self.nextWeapon-1].create()
 	end
 end
 end
