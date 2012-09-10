@@ -57,7 +57,7 @@ function map.updateLevel()
 		--if actLevel...spawn bosses
 		spawnTimer:reset()
 	end
-	if livingEnemies == 0 and toSpawn == 0 then map.nextLevel() end
+	if livingEnemies <= 0 and toSpawn == 0 then map.nextLevel() end
 end
 
 function map.load1()
@@ -100,8 +100,8 @@ function map.load2()
 	livingEnemies = 0
 	toSpawn = enemies
 	Barrel:new(width/2,height/2)
-	--Barrel:new(600,500)
-	--Barrel:new(650,500)
+	Barrel:new(600,500)
+	Barrel:new(650,500)
 	--Barrel:new(500,700)
 
 end
