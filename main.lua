@@ -12,6 +12,7 @@ require 'lib.middleclass'
 local bump = require 'lib.bump'
 local entity = require 'entities.Entity'
 local timer = require 'lib.timer'
+local effect = require 'effect.effect'
 
 unit = 1  --firing rate's unit --sec
 
@@ -56,15 +57,17 @@ bump.initialize(32)
 end
 
 function love.update(dt)
+  effect:updateAll(dt)
   entity:updateAll(dt)
   timer:updateAll(dt)
   bump.collide()
-
   map.updateLevel()
+  THIS = livingEnemies
 end
 
 function love.draw()
   if 211 ~= love.graphics.getBackgroundColor() then love.graphics.setBackgroundColor(211,211,211) end
+  effect:drawAll()
   entity:drawAll()
   drawDebug()
   --if EXPx then love.graphics.rectangle('line', EXPx,EXPy,EXPw,EXPh) end
