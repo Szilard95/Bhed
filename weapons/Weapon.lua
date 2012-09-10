@@ -50,3 +50,17 @@ function Weapon:getAmmo()
 end
 
 return Weapon
+--[[ Gyureee spread előkészítés
+function Weapon:fire(x,y,dir,owner)
+	if self.timer:trigger() then
+	if self.ammo == nil then
+	Bullet:new(x,y,dir,self.dmg,owner,self.range)
+	elseif self.ammo > 0 then
+	self.ammo = self.ammo -1
+	Bullet:new(x,y,dir,self.dmg,owner,self.range)
+	end
+	self.timer:reset()
+	end
+end
+
+]]--
