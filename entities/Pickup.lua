@@ -1,6 +1,6 @@
 local entity = require 'entities.Entity'
 
-PickUp = class('PickUp',entity)
+ PickUp = class('PickUp',entity)
 
 function PickUp:initialize(x,y)
 	self.dim = dims['pickup']

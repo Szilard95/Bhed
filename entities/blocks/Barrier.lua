@@ -6,7 +6,7 @@ local Block = require 'entities.Blocks.Block'
 
 local img = "/res/Barrier.png"
 
-Barrier = class('Barrier', Block )
+ Barrier = class('Barrier', Block )
 
 function Barrier:initialze(x,y,...)
 	if #arg == 2 then Block.initialize(self,x,y,arg[1],arg[2])

@@ -1,6 +1,6 @@
 require 'lib.middleclass'
 
-Timer = class('Timer')
+ Timer = class('Timer')
 local timers = {}
 local timerCounter = 0
 function Timer:initialize(rate)

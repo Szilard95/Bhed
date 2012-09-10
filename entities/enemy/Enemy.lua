@@ -1,7 +1,7 @@
 local entity = require 'entities.Entity'
 local timer = require 'lib.timer'
 local pickup = require 'entities.Pickup'
-Enemy = class('Enemy', entity)
+ Enemy = class('Enemy', entity)
 
 local function sign(x)
   return x < 0 and -1 or (x > 0 and 1 or 0)
@@ -100,19 +100,20 @@ function Enemy:drop()
 	end
 end
 
-function Enemy:damage(d,owner)
-  if not self.hp then return end
+function Enemy:damage(d,ownr)
+  if self.hp then
   self.hp = self.hp - d
   if self.hp <= 0 then
   	self:drop()
   	self:destroy()
-  	livingEnemies = livingEnemies - 1
-  	if owner then 
-  		owner:setScore(self.val)
-		owner:setMul(self.mul)
-		owner:tryGiveWeapon()
+  	--livingEnemies = livingEnemies - 1
+  	if ownr then 
+  		ownr:setScore(self.val)
+		ownr:setMul(self.mul)
+		ownr:tryGiveWeapon()
 	end
   end
+end
 end
 
 
