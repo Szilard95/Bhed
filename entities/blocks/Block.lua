@@ -5,10 +5,10 @@
 local bump = require 'lib.bump'
 local entity = require 'entities.Entity'
 
-Block = class('Block', entity)
+ Block = class('Block', entity)
 
 function Block:initialize(x,y,img,hp)
-	self.dim = dims.block
+	if not self.dim then self.dim = dims.block end
 	entity.initialize(self,x,y,img,hp)
 	bump.addStatic(self)
 end
